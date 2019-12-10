@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="jquery-3.4.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	<style type="text/css">
+		body {
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.table_cart {
+	width:100%;
+	max-width:700px;
+	border:1px solid #999;
+	padding:0;
+	 border-collapse: collapse;
+	& thead tr, tbody tr, tfoot tr {
+		border-bottom:1px solid #888;
+	}
+	& tfoot {
+		background:rgba(0,0,0,0.1);
+	}
+	&--heading {
+		background:rgba(0,0,0,0.4);
+		text-align:left;
+	}
+	&--footer {
+		text-align:left;
+		background:rgba(0,0,0,0.1);
+
+	}
+	& td, th {
+		padding:8px;
+		border-left:1px solid #888;
+		position:relative;
+		&:first-child {
+			border:0;
+		}
+	}
+	& .add_qty, .remove_qty {
+		background:rgba(0,0,0,0.4);
+		padding:3px;
+		display:inline-block;
+		width:8px;
+		height:8px;
+		line-height:8px;
+		text-align:center;
+		vertical-align:middle;
+		position:absolute;
+		cursor:pointer;
+		color:#fff;
+	}
+	.remove_qty {
+		top:23px;
+	}
+	& .input_qty {
+		padding:5px;
+		margin-right:5px;
+	}
+}
+	</style>
+
+</head>
+<body>
+	<h1>Your Basket</h1>
+  <p>
+    Items you have added to your basket are shown below,
+    Adject the quantities or remove items before continuing your purchase.
+  </p>
+
+  <table class="table_cart">
+    <thead>
+      <tr class="table_cart--heading">
+        <th>
+          Products
+        </th>
+        <th>
+          Price
+        </th>
+        <th>
+          Qty
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="item-row">
+        <td >
+			Cotton T-Shirt, Medium
+        </td>
+        <td>
+			<span class="item_price" data-price="500"> Rs. 500/-</span>
+        </td>
+        <td>
+          <input class="input_qty" name="quantity" value="0">
+          <span class="add_qty"> + </span> <span class="remove_qty"> - </span>
+        </td>
+        <td class="item_cost">Rs.
+			<span  class="item-cost-val">  </span>/-
+        </td>
+			<td> <a href="javascript:" class="js_remove_item">Remove</a> </td>
+      </tr>
+			 
+			 
+	 <tr id="product_item-2" class="item-row">
+        <td>
+			Cotton T-Shirt, Medium
+        </td>
+        <td>
+			<span class="item_price" data-price="500"> Rs. 500/-</span>
+        </td>
+        <td>
+          <input class="input_qty" name="quantity" value="0">
+          <span class="add_qty" > + </span> <span class="remove_qty"> - </span>
+        </td>
+        <td  class="item_cost">Rs.
+          <span class="item-cost-val">  </span>/-
+        </td>
+		<td> <a href="javascript:" class="js_remove_item" id="remove_item-2">Remove</a> </td>
+      </tr>
+    </tbody>
+		
+		
+		
+		
+		
+		
+		
+		<tfoot>
+    <tr>
+      <td>Sub Total</td>
+      <td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td >Rs. <span id="subtotal"> 0</span>/-</td>
+			<td>&nbsp;</td>
+    </tr>
+			<tr>
+      <td>VAT 20%</td>
+      <td>&nbsp;</td>
+			<td>&nbsp;</td>
+				<td>Rs. <span id="total_vat">0</span>/-</td>
+			<td>&nbsp;</td>
+    </tr>
+			<tr class="table_cart--footer">
+			<th><strong>Total Cost</strong></th>
+      <td>&nbsp;</td>
+			<td>&nbsp;</td>
+				<th colspan='2'> <span id="total_cost">0</span>/-</th>
+			
+    </tr>
+  </tfoot>
+  </table>
+
+</body>
+</html>
+
+<script type="text/javascript">
+	
+$(document).ready(function(){
+	$('.add_qty').on('click', function(ev) {
+		$currObj = $(ev.currentTarget);
+		var currQCount = getCurrQCount($currObj);
+			currQCount++;
+			updateData($currObj, currQCount);
+	 });
+
+	 $('.remove_qty').on('click', function(ev) {
+		$currObj = $(ev.currentTarget);
+		var currQCount = getCurrQCount($currObj);
+
+			currQCount--;
+			updateData($currObj, currQCount);
+
+	 });
+
+
+	function getCurrQCount($currObj){
+		return $currObj.siblings(".input_qty").val();
+	}
+
+	function updateData($currObj, currQCount){
+		$currObj.siblings(".input_qty").val(currQCount);
+
+		var $parentObj = $currObj.closest(".item-row");
+		var itemPrice = $parentObj.find(".item_price").attr("data-price");
+		var itemCost = Number(itemPrice) * currQCount;
+		$parentObj.find(".item-cost-val").text(itemCost);
+
+		var subTotal = getSubTotal();
+		var vatAmount = getVatAmount();
+		var totalCost = subTotal + vatAmount;
+		$("#subtotal").text(subTotal);
+		$("#total_vat").text(vatAmount);
+		$("#total_cost").text(totalCost);
+	}
+
+	function getSubTotal(){
+		var subTotal = 0;
+		$(".item-cost-val").each(function() {
+			subTotal+= Number($(this).text());
+		});
+		return subTotal;
+	}
+
+	function getVatAmount(){
+		var vatPercentage = 0.2;
+		return vatPercentage * getSubTotal();
+	}
+
+});
+
+</script>
+

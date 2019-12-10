@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+   <link rel ="stylesheet" href = "{% static "css/bootstrap.min.css "%}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<style>
+
+ .navbar-inverse {
+    background-color: #bb2525;
+    border-color: #d8201d;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #bb2525;
+}
+
+.item {
+    width: 100%;
+    height: 500px;
+}
+
+.item img {
+    width: 100%;
+    height: 60%;
+}
+
+
+</style>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Restaurant</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Page 1-1</a></li>
+          <li><a href="#">Page 1-2</a></li>
+          <li><a href="#">Page 1-3</a></li>
+        </ul>
+      </li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="http://localhost:8000/signup/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+
+
+
+
+
+   {% if user.is_authenticated %}
+        <li><a href="http://localhost:8000/user_logout"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+
+    {% else %}
+   <li><a href="http://localhost:8000/user_login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+
+
+
+    {% endif %}
+    </ul>
+  </div>
+</nav>
+
+
+
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="http://nishi-restaurant.com/images/menu-drinks-side01.jpg">
+      </div>
+
+      <div class="item">
+        <img src="https://www.berries.com/blog/wp-content/uploads/2018/06/bite-sized-desserts-hero.jpg">
+      </div>
+
+      <div class="item">
+        <img src="https://assets.kraftfoods.com/recipe_images/opendeploy/204595_640x428.jpg">
+      </div>
+
+
+
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<form action="http://localhost:8000/home/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+
+
+</form>
+<br><br><br><br>
+
+<div class="container">
+
+
+ <div class="row">
+  <div class="col-md-4">
+    <div class="card" style="width: 30rem;">
+<h1 class="text-center"><strong>Vegetarian</strong></h1>
+    <img class="img-responsive" src="https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/vegetarian-diet-plan-1296x728-feature.jpg?w=1155&h=1528">
+    <center><a href="http://localhost:8000/product_list?type=V1" class="btn btn-primary">Click</a></center>
+    </div>
+  </div>
+
+
+
+
+  <div class="col-md-4">
+   <div class="card" style="width: 30rem;">
+    <h1 class="text-center"><strong>Non-Vegetarian</strong></h1>
+    <img class="img-responsive" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSABQz8PiTdKJkdLlpYnttXp9YHV6-lLcCddnLlhSuJoIO_og4U">
+     <center><a href="http://localhost:8000/product_list?type=NV1" class="btn btn-primary">Click</a></center>
+
+  </div>
+  </div>
+
+
+
+  <div class="col-md-4">
+     <div class="card" style="width: 30rem;">
+    <h1 class="text-center"><strong>Chinese</strong></h1>
+    <img  class="img-responsive" src="https://images2.minutemediacdn.com/image/upload/c_crop,h_695,w_1237,x_0,y_58/f_auto,q_auto,w_1100/v1554992472/shape/mentalfloss/521724-istock-545286388.jpg">
+  <center><a href="http://localhost:8000/product_list?type=CH" class="btn btn-primary">Click</a></center>
+
+  </div>
+  </div>
+ </div><br><br>
+
+
+
+<div class="row">
+<div class="col-md-4">
+  <div class="card" style="width: 30rem;">
+<h1 class="text-center"><strong>Mexican</strong></h1>
+    <img class="img-responsive" src="https://img.trycaviar.com/Nz8xQ-brVZM_5ewn1Ag7NxLgmPo=/900x0/https://s3.amazonaws.com/trycaviar.com/offers/5143/217881-201702231421.jpg">
+<center><a href="http://localhost:8000/product_list?type=MX" class="btn btn-primary">Click</a></center>
+
+  </div>
+</div>
+
+
+
+  <div class="col-md-4">
+<div class="card" style="width: 30rem;">
+    <h1 class="text-center"><strong>Italian</strong></h1>
+    <img class="img-responsive" src="https://serafinamia.com/wp-content/uploads/2018/09/10-Italian-Fun-Facts-The-Food-Fashion-and-Culture-of-Italy.jpg">
+<center><a href="http://localhost:8000/product_list?type=IT" class="btn btn-primary">Click</a></center>
+
+  </div>
+  </div>
+
+
+
+  <div class="col-md-4">
+    <div class="card" style="width: 30rem;">
+    <h1 class="text-center"><strong>Thai</strong></h1>
+    <img  class="img-responsive" src="http://static.asiawebdirect.com/m/bangkok/portals/bangkok-com/homepage/food-top10/pagePropertiesImage/thai-som-tum.jpg.jpg">
+<center><a href="http://localhost:8000/product_list?type=TH" class="btn btn-primary">Click</a></center>
+
+    </div></div></div>
+
+
+
+
+</div>
+</body>
+
+
+
+
+
+</body>
+</html>

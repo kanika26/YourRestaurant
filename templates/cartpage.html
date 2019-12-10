@@ -1,0 +1,331 @@
+{% extends "navbar.html" %}
+
+
+{% block content %}
+{% load static %}
+
+{% load mathfilters %}
+
+<script src = "http://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" >
+        $(document).ready(function(){
+
+
+
+
+$('html, body').animate({
+        scrollTop: $('#cart_idx').offset().top
+
+    }, 'fast');
+
+
+
+
+        });
+
+</script>
+
+
+
+
+{% if user.is_authenticated %}
+
+
+<body>
+<!--<div id = "box"></div>-->
+
+
+<div class="jumbotron" id="cart_idx">
+    <h1 class="display-4">Cart!</h1>
+     {% if cartobjects %}
+    <h4>Total:  {{total}}  </h4>
+
+     <a href="http://localhost:8000/menu/" class="btn btn-primary p-3 px-xl-4 py-xl-3" style="float:right;">Add More</a>&nbsp;&nbsp;
+
+
+</div>
+
+<div class = "container">
+<table class="table table-striped">
+
+
+  <thead>
+    <tr>
+
+      <th scope="col">Item</th>
+        <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Remove</th>
+
+
+    </tr>
+
+  </thead>
+
+
+{% for  i,k,pos in cartobjects %}
+
+
+
+     <script type="text/javascript" >
+        $(document).ready(function(){
+
+
+
+            $("#txt{{pos}}").click(function() {
+           var del_id = $('#res{{pos}}').val();
+           // alert(del_id);
+           $.ajax({
+                                type : "GET",
+                                url : "http://localhost:8000/removefromcart", //URL to the delete  script
+                                data : {cartid : del_id},
+                                success : function() {
+          $("#dyynpro{{pos}}").fadeOut().remove();
+          }
+
+
+
+	    //location.reload(true);
+	     });
+	});
+
+
+        //////////*********/////////
+
+          $("#txt1{{pos}}").click(function() {
+           var add_id = $('#out{{pos}}').val();
+
+          //alert(add_id);
+           $.ajax({
+                                type : "GET",
+                                url : "http://localhost:8000/changeQuantity", //URL to the delete  script
+
+
+                                data : {mode: "1", cartid: add_id},
+                                success : function(data) {
+                                location.reload(true);
+                               // console.log(data);
+         //$("#dyynpro{{pos}}").append();
+                                }
+
+
+
+
+                    });
+
+
+
+        });
+
+          $("#txt2{{pos}}").click(function() {
+           var add_id = $('#out{{pos}}').val();
+          // alert(add_id);
+           $.ajax({
+                                type : "GET",
+                                url : "http://localhost:8000/changeQuantity", //URL to the delete  script
+
+
+                                data : {mode: "2", cartid: add_id},
+                                success : function(data) {
+                                location.reload(true);
+                               // console.log(data);
+         //$("#dyynpro").append();
+                                }
+
+
+
+
+                    });
+
+
+
+        });
+
+
+        });
+
+
+
+ </script>
+
+
+
+  <tbody>
+
+
+    <tr id="dyynpro{{pos}}">
+      <td scope="row{{pos}}">{{i.producttitle}}</td>
+
+
+        <input type="hidden" value="{{i.cartid}}" id="out{{pos}}" />
+       <!-- <td id = "txt1" class="btn btn-primary">  +  </td>-->
+
+          <!--  <a href="http://localhost:8000/changeQuantity?mode=2&cartid={{i.cartid}}">-->
+        <td  class="btn btn-primary">
+            <i id = "txt1{{pos}}" >&nbsp;+ &nbsp;</i> {{i.quantity}}
+            <i id = "txt2{{pos}}" >&nbsp; - &nbsp;</i>     </td>
+
+      <td>{{i.price}}</td>
+
+       <td>{{k}}</td>
+
+
+
+        <!--<td>{% widthratio i.price 1 i.quantity  %}</td>-->
+
+
+    <input type="hidden" value="{{i.cartid}}" id="res{{pos}}" />
+     <!-- <td> <a id='txt' href="http://localhost:8000/removefromcart?cartid={{i.cartid}}" class="btn btn-primary p-3 px-xl-4 py-xl-3"  >Remove</a> </td>-->
+       <td id="txt{{pos}}" class="btn btn-primary p-3 px-xl-4 py-xl-3" >Remove</td>
+
+
+
+        <!-- here  goes the code  -->
+
+
+        {%   endfor  %}
+    </tr>
+  </tbody>
+</table>
+</div>
+
+{% endif %}
+
+
+
+
+
+					{% else %}
+
+					 <br><br><br><center><p><h2><b>No items in the cart</b></h2> </center>
+
+
+
+
+					{% endif %}
+
+<div class = "jumbotron">
+    <div class = "container">
+
+        <h4><strong>Please Enter Delivery Details:</strong></h4>
+
+<form action="http://localhost:8000/checkout/"  method="POST">{% csrf_token %}
+<style>
+    input#id_name {
+    width: 56%;
+}
+input#id_address {
+width: 56%;
+}
+input#id_city {
+width: 56%;
+}
+input#id_zipcode {
+width: 56%;
+}
+input#id_state {
+width: 56%;
+}
+input#id_phoneno {
+width: 56%;
+}
+input#id_email {
+width: 56%;
+}
+
+</style>
+<div class="container">
+
+
+
+                            <label for="id_username" class="control-label col-md-4  requiredField"> Name<span class="asteriskField">*</span> </label>
+                            <div class="controls col-md-8 ">
+                                <span style="width:300px";>{{foodform.name}}</span>
+
+                            </div>
+
+                        <div id="div_id_email" class="form-group required">
+                            <label for="id_email" class="control-label col-md-4  requiredField"> Address<span class="asteriskField">*</span> </label>
+                            <div class="controls col-md-8 ">
+                                 <span style="width:300px";>{{foodform.address}}</span>
+
+                            </div>
+                        </div>
+                        <div id="div_id_password1" class="form-group required">
+                            <label for="id_password1" class="control-label col-md-4  requiredField">City<span class="asteriskField">*</span> </label>
+                            <div class="controls col-md-8 ">
+                                <span style="width:300px";>{{foodform.city}}</span>
+                        </div>
+                        <div id="div_id_password2" class="form-group required">
+                             <label for="id_password2" class="control-label col-md-4  requiredField"> Zipcode<span class="asteriskField">*</span> </label>
+                             <div class="controls col-md-8 ">
+                               <span style="width:300px";>{{foodform.zipcode}}</span>
+                        </div>
+                        </div>
+                         <div id="div_id_password2" class="form-group required">
+                             <label for="id_password2" class="control-label col-md-4  requiredField"> State<span class="asteriskField">*</span> </label>
+                             <div class="controls col-md-8 ">
+                               <span style="width:300px";>{{foodform.state}}</span>
+                        </div>
+                        </div>
+                          <div id="div_id_password2" class="form-group required">
+                             <label for="id_password2" class="control-label col-md-4  requiredField"> Phone Number<span class="asteriskField">*</span> </label>
+                             <div class="controls col-md-8 ">
+                               <span style="width:300px";>{{foodform.phoneno}}</span>
+                        </div>
+                        </div>
+                         <div id="div_id_password2" class="form-group required">
+                             <label for="id_password2" class="control-label col-md-4  requiredField"> Email<span class="asteriskField">*</span> </label>
+                             <div class="controls col-md-8 ">
+                               <span style="width:300px";>{{foodform.email}}</span>
+                        </div>
+                        </div>
+                             <div class="controls col-md-8 ">
+                             <input class="btn btn-primary p-3 px-xl-4 py-xl-3"  type = 'submit' value="Proceed" >
+                             </div>
+                    </form>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+
+
+<script>
+function myFunction() {
+
+
+	document.getElementById('theForm').submit()
+}
+
+</script>
+
+
+<script src = "http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!--<script>
+
+    $(document).ready(function(){
+
+        $("button").click(function(){
+         alert('i am here');
+            $("#box").load("cartpage.html");
+        });
+    });
+
+</script>-->
+
+
+
+
+ <script src="{% static 'js/addremove.js' %}"></script>
+
+
+{% endblock %}
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div class = "jumbotron">
+
+    {% if registered %}
+    <h1>Thankyou for registering! </h1>
+    {% else %}
+    <h3>Fill out the Form:</h3>
+
+    <form method="POST">{% csrf_token %}
+        {{ user_form.as_p }}
+        <input type = "Submit" value="Submit">
+    {% endif %}
+    </form>
+
+
+</div>
+
+</body>
+
+
+
